@@ -1,41 +1,44 @@
 <!DOCTYPE html>
-<html lang="de">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rubens Website</title>
-    <link rel="stylesheet" href="styles.css">
+ <title>Dino Spiel von Google</title>
+ <style>
+    body {
+      background-color: #e1f5fe;
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 20px;
+      background-color: #64b5f6;
+      color: white;
+    }
+
+    iframe {
+      display: block;
+      margin: 0 auto;
+      width: 600px;
+      height: 400px;
+    }
+ </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">Über mich</a></li>
-                <li><a href="#contact">Lehrplan</a></li>
-            </ul>
-        </nav>
-    </header>
+ <h1>Dino Spiel von Google</h1>
+ <iframe id="game" src="https://chromedino.com/"></iframe>
 
-    <main>
-        <section id="home">
-            <h1>Willkommen auf Rubens Website.</h1>
-            <p>Dies ist meine Erste Website die Online ist, sonst habe ich schon 3 Monate erfahrung.</p>
-        </section>
+ <script>
+   // Wait for the iframe to load
+   document.getElementById('game').onload = function() {
+     // Access the iframe's window object
+     var iframeWindow = document.getElementById('game').contentWindow;
 
-        <section id="about">
-            <h2>Über mich</h2>
-            <p>Das bin ich <a href="https://as1.ftcdn.net/v2/jpg/01/26/65/78/1000_F_126657879_WuQLAcTcGKSoJvLObXUMVyXj4Ehjlog7.jpg">Google</a>-Seite!</p>
-        </section>
-
-        <section id="contact">
-            <h2>Kontakt</h2>
-            <p>.</p>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy;Ruben Kindermann mag coden..</p>
-    </footer>
+     // Override the original method
+     iframeWindow.onkeydown = function(event) {
+       // Your custom keydown handling logic here
+       console.log('Key pressed:', event.keyCode);
+     };
+   };
+ </script>
 </body>
 </html>
