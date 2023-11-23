@@ -1,11 +1,101 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Periodic Table</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complex HTML Code</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        .header {
+            background-color: #f1f1f1;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            background-color: #ddd;
+            padding: 10px 0;
+        }
+        .navbar a {
+            color: #000;
+            text-decoration: none;
+            padding: 8px 16px;
+            transition: background-color 0.3s;
+        }
+        .navbar a:hover {
+            background-color: #ccc;
+        }
+        .main {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px 0;
+        }
+        .card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card h2 {
+            margin: 0 0 10px 0;
+            font-size: 24px;
+        }
+        .card p {
+            line-height: 1.6;
+        }
+        .footer {
+            background-color: #f1f1f1;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .footer p {
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
-    <div id="periodic-table"></div>
-    <script src="script.js"></script>
+    <div class="container">
+        <div class="header">
+            <h1>My Website</h1>
+        </div>
+        <div class="navbar">
+            <a href="#">Home</a>
+            <a href="#">Über diese Website</a>
+            <a href="#">Kontakt LOL</a>
+        </div>
+        <div class="main">
+            <div class="card">
+                <h2>Card 1</h2>
+                <p>Dies ist nur eine Test.</p>
+            </div>
+            <div class="card">
+                <h2>Card 2</h2>
+                <p>Dies ist nur eine Test.</p>
+            </div>
+            <div class="card">
+                <h2>Card 3</h2>
+                <p>Dies ist nur eine Test.</p></p>
+            </div>
+        </div>
+        <div class="footer">
+            <p>Dies ist nur ein Test.</p>
+        </div>
+    </div>
 </body>
 </html>
