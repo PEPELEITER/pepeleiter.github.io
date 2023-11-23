@@ -1,22 +1,11 @@
-var periodicTable = [
- ['H', 'He'],
- ['Li', 'Be', 'B', 'C', 'N', 'O', 'F', 'Ne'],
- // ... rest der Perioden
-];
-
-function createTable(periodicTable) {
- var table = document.getElementById('periodic-table');
- periodicTable.forEach(function(row) {
-    var rowElement = document.createElement('div');
-    rowElement.className = 'row';
-    row.forEach(function(element) {
-      var elementElement = document.createElement('div');
-      elementElement.className = 'element';
-      elementElement.textContent = element;
-      rowElement.appendChild(elementElement);
-    });
-    table.appendChild(rowElement);
- });
-}
-
-createTable(periodicTable);
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Periodic Table</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div id="periodic-table"></div>
+    <script src="script.js"></script>
+</body>
+</html>
