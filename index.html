@@ -1,44 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
- <title>Dino Spiel von Google</title>
- <style>
-    body {
-      background-color: #e1f5fe;
-      font-family: Arial, sans-serif;
-    }
+var periodicTable = [
+ ['H', 'He'],
+ ['Li', 'Be', 'B', 'C', 'N', 'O', 'F', 'Ne'],
+ // ... rest der Perioden
+];
 
-    h1 {
-      text-align: center;
-      padding: 20px;
-      background-color: #64b5f6;
-      color: white;
-    }
+function createTable(periodicTable) {
+ var table = document.getElementById('periodic-table');
+ periodicTable.forEach(function(row) {
+    var rowElement = document.createElement('div');
+    rowElement.className = 'row';
+    row.forEach(function(element) {
+      var elementElement = document.createElement('div');
+      elementElement.className = 'element';
+      elementElement.textContent = element;
+      rowElement.appendChild(elementElement);
+    });
+    table.appendChild(rowElement);
+ });
+}
 
-    iframe {
-      display: block;
-      margin: 0 auto;
-      width: 600px;
-      height: 400px;
-    }
- </style>
-</head>
-<body>
- <h1>Dino Spiel von Google</h1>
- <iframe id="game" src="https://chromedino.com/"></iframe>
-
- <script>
-   // Wait for the iframe to load
-   document.getElementById('game').onload = function() {
-     // Access the iframe's window object
-     var iframeWindow = document.getElementById('game').contentWindow;
-
-     // Override the original method
-     iframeWindow.onkeydown = function(event) {
-       // Your custom keydown handling logic here
-       console.log('Key pressed:', event.keyCode);
-     };
-   };
- </script>
-</body>
-</html>
+createTable(periodicTable);
