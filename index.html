@@ -3,85 +3,302 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>_Strawberry_ Stinkt!!!</title>
+    <title>Analog Clock</title>
     <style>
-        @property --k {
-	syntax: '<number>';
-	initial-value: 0;
-	inherits: false
-}
+        html {
+            font-size: 0.75vmin;
+        }
 
-html, body { display: grid }
-
-html { height: 100% }
-
-body { background: #000 }
-
-svg[height='0'] { position: absolute }
-
-h1 {
-	--k: 0;
-	place-self: center;
-	background: 
-		linear-gradient(90deg, 
-				hsl(calc(var(--k)*1turn), 95%, 65%), 
-				hsl(calc(var(--k)*1turn + 90deg), 95%, 65%));
-	-webkit-background-clip: text;
-					background-clip: text;
-	color: transparent;
-	font: 900 clamp(.875em, 7.25vw, 5em) arial black, sans-serif;
-	filter: url(#f);
-	text-align: center;
-	text-transform: uppercase;
-	animation: k 4s linear infinite
-}
-
-@keyframes k { to { --k: 1 } }
         body {
-            font-family: Arial, sans-serif;
-            height: 100vh;
-            margin: 0;
+            background-image: linear-gradient(to bottom, #131313, #000);
+            perspective: 45rem;
+            transform-style: preserve-3d;
+        }
+
+        .wrapper {
+            animation: camera-rotate 40s ease-in-out forwards infinite;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+        }
+
+        main {
+            --s: 100%;
+            --l: 50%;
             display: flex;
+            color: hsl(210deg, var(--s), var(--l));
+            gap: 1rem;
+            width: 100%;
+            height: 100%;
+            position: relative;
             align-items: center;
             justify-content: center;
-            background-size: 800% 100%;
-            
+            animation-composition: add;
+            animation: camera-pan 30s linear forwards infinite;
+            translate: 0rem 1rem 10rem;
+            transform-style: preserve-3d;
         }
 
-        @keyframes gradientAnimation {
-            0% {
-                background-position: 0 0;
-            }
-            100% {
-                background-position: 800% 0;
-            }
+        .digits {
+            transform-style: preserve-3d;
         }
 
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 0 15px;
+        .group {
+            display: flex;
+            gap: 2rem;
         }
-        h1 {
+
+        .digit {
             position: relative;
-            font-size: 5em;
-            text-align: center;
-            color: transparent;
-            -webkit-background-clip: text;
-            background-clip: text;
+            height: 16rem;
+            aspect-ratio: 1/2;
+            filter: drop-shadow(0px 0px 4px currentColor) drop-shadow(0px 0px 10px currentColor);
         }
-  </style>
+
+        .digit span {
+            --act: 0;
+            --signX: 1;
+            --signY: 1;
+            position: absolute;
+            background-color: white;
+            transition: all .3s cubic-bezier(.17,.67,.5,1.15);
+            opacity: calc(0.03 + 0.97 * var(--act));
+            animation-composition: add;
+            transform: scale(var(--signX), var(--signY));
+        }
+
+        .digit span.end {
+            clip-path: polygon(15% 0%, 7.5% 20%, 25% 100%, 75% 100%, 92.5% 20%, 85% 0%);
+            width: 100%;
+            height: 10%;
+        }
+
+        .digit span.end.top {
+            top: 0;
+        }
+
+        .digit span.end.bottom {
+            top: initial;
+            bottom: 0;
+            --signY: -1;
+        }
+
+        .digit span.side {
+            clip-path: polygon(0% 15%, 20% 7.5%, 100% 22.5%, 100% 85%, 20% 95%, 0% 90%);
+            height: 50%;
+            width: 20%;
+        }
+
+        .digit span.side.left {
+            top: 0;
+            left: 0;
+        }
+
+        .digit span.side.left.bottom {
+            top: initial;
+            bottom: 0;
+            --signY: -1;
+        }
+
+        .digit span.side.right {
+            top: 0;
+            left: initial;
+            right: 0;
+            --signX: -1;
+        }
+
+        .digit span.side.right.bottom {
+            top: initial;
+            --signY: -1;
+            bottom: 0;
+        }
+
+        .digit span.middle {
+            clip-path: polygon(22.5% 0%, 6.5% 50%, 22.5% 100%, 77.5% 100%, 93.5% 50%, 77.5% 0%);
+            top: 45%;
+            height: 10%;
+            width: 100%;
+        }
+
+        .colon-group {
+            transform-style: preserve-3d;
+        }
+
+        .colon span {
+            display: flex;
+            height: 16rem;
+            flex-direction: column;
+            justify-content: space-evenly;
+            width: 4rem;
+            align-items: center;
+            filter: drop-shadow(0px 0px 4px currentColor) drop-shadow(0px 0px 10px currentColor);
+        }
+
+        .colon span::before,
+        .colon span::after {
+            content: '';
+            display: block;
+            width: 2rem;
+            aspect-ratio: 1/1;
+            background-color: white;
+            border-radius: 2rem;
+        }
+
+        .shadow {
+            top: 0;
+            position: absolute;
+            transform-origin: bottom center;
+            transform: translateY(1rem) translateZ(2rem) rotateX(-90.1deg);
+        }
+
+        .digit span {
+            opacity: var(--act);
+        }
+
+        .shadow.shadow1 {
+            opacity: 0.5;
+            filter: drop-shadow(0px 0px 4px currentColor) drop-shadow(0px 0px 10px currentColor) blur(4rem);
+        }
+
+        .shadow.shadow2 {
+            opacity: 0.4;
+            filter: drop-shadow(0px 0px 4px currentColor) drop-shadow(0px 0px 10px currentColor) blur(4px);
+        }
+
+        .safari .digit span {
+            transition: none !important;
+        }
+    </style>
 </head>
-<body>   
-    <svg width="0" height="0">
-        <filter id="f" x="-50%" y="-200%" width="200%" height="500%">
-            <feGaussianBlur stdDeviation="35"/>
-            <feColorMatrix type="saturate" values="1.3"/>
-            <feComposite in="SourceGraphic"/>
-        </filter>
-    </svg>
-    <h1 gradient text glow>_Strawberry_</h1>
+<body>
+    <main></main>
+
     <script>
+        const bars = [
+            ['end', 'top'],
+            ['side', 'top', 'left'],
+            ['side', 'top', 'right'],
+            ['middle'],
+            ['side', 'bottom', 'left'],
+            ['side', 'bottom', 'right'],
+            ['end', 'bottom']
+        ];
+
+        const $main = document.querySelector('main');
+
+        const addDigits = number => {
+            const initGroup = (number, padding = 2) => {
+                const $group = document.createElement('div');
+                $group.classList.add('group');
+
+                const digits = [...`${number}`.padStart(padding, 0)].map(digit => {
+                    const $digit = document.createElement('figure');
+                    $digit.classList.add('digit');
+                    $digit.setAttribute('data-digit', digit);
+                    bars.forEach(classes => {
+                        const $span = document.createElement('span');
+                        $span.classList.add(...classes);
+                        $digit.append($span);
+                    });
+                    return $digit;
+                });
+
+                $group.append(...digits);
+
+                return {
+                    element: $group,
+                    set number(val) {
+                        number = val;
+                        [...`${number}`.padStart(padding, 0).substring(`${number}`.length - 2)].forEach((digit, i) => {
+                            digits[i].setAttribute('data-digit', digit);
+                        });
+                    },
+
+                    get number() {
+                        return number;
+                    }
+                }
+            }
+
+            const $digits = document.createElement('div');
+            $digits.classList.add('digits');
+            const group = initGroup(number);
+            const groupShadow1 = initGroup(number);
+            const groupShadow2 = initGroup(number);
+            groupShadow1.element.classList.add('shadow');
+            groupShadow1.element.classList.add('shadow1');
+            groupShadow2.element.classList.add('shadow');
+            groupShadow2.element.classList.add('shadow2');
+            $digits.append(group.element);
+            $digits.append(groupShadow1.element);
+            $digits.append(groupShadow2.element);
+            $main.append($digits);
+
+            return {
+                set number(val) {
+                    number = val;
+                    group.number = val;
+                    groupShadow1.number = val;
+                    groupShadow2.number = val;
+                },
+                get number() {
+                    return number;
+                }
+            }
+        }
+
+        const addColon = () => {
+            const $colonGroup = document.createElement('div');
+            $colonGroup.classList.add('colon-group');
+            const $colon = document.createElement('figure');
+            $colon.append(document.createElement('span'));
+            const $colonShadow1 = document.createElement('figure');
+            $colonShadow1.append(document.createElement('span'));
+            const $colonShadow2 = document.createElement('figure');
+            $colonShadow2.append(document.createElement('span'));
+            $colon.classList.add('colon');
+            $colonShadow1.classList.add('colon', 'shadow', 'shadow1');
+            $colonShadow2.classList.add('colon', 'shadow', 'shadow2');
+            $colonGroup.append($colon);
+            $colonGroup.append($colonShadow1);
+            $colonGroup.append($colonShadow2);
+            $main.append($colonGroup);
+        }
+
+        const init = () => {
+            let now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            let seconds = now.getSeconds();
+
+            const numberHour = addDigits(hours);
+            addColon();
+            const numberMinute = addDigits(minutes);
+            addColon();
+            const numberSecond = addDigits(seconds);
+
+            const update = () => {
+                now = new Date();
+                let newSeconds = now.getSeconds();
+                if (seconds !== newSeconds) {
+                    hours = now.getHours();
+                    minutes = now.getMinutes();
+                    seconds = newSeconds;
+                    numberHour.number = hours;
+                    numberMinute.number = minutes;
+                    numberSecond.number = seconds;
+                }
+
+                requestAnimationFrame(update);
+            }
+            update();
+        }
+
+        if (/^(?:(?!chrome|android)[\s\S])*(?:safari|iPad|iPhone|iPod)/i.test(navigator.userAgent)) {
+            document.body.classList.add('safari');
+        }
+
+        init();
     </script>
 </body>
 </html>
